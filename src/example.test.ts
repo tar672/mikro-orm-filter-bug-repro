@@ -53,11 +53,10 @@ test('basic CRUD example', async () => {
   orm.em.create(Account, { user: user });
   await orm.em.flush();
   orm.em.clear();
-  const cleanEm = orm.em.fork();
 
   // This line should probably raise a typescript error
   // But even though it doesn't the filter should still be scoped to the Account entity
-  const inactiveAccounts = await cleanEm.find(Account, { isActive: false });
+  const inactiveAccounts = await orm.em.find(Account, { isActive: false });
   expect(inactiveAccounts.length).toBe(1);
   expect(inactiveAccounts[0].user?.isActive).toBe(true);
 
